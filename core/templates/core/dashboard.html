@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Bosh sahifa — Alvitsenna{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <div class="topbar-greeting">Assalomu alaykum, {{ profile.full_name|default:request.user.username }}!</div>
+    <div class="topbar-sub">Bugungi sog'liq holatingiz</div>
+  </div>
+  <div class="topbar-actions">
+    <div class="icon-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+    </div>
+    <div class="avatar">{{ request.user.username|first|upper }}</div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card risk-card">
+    <div class="risk-ring-wrap">
+      <svg width="128" height="128" viewBox="0 0 128 128">
+        <circle cx="64" cy="64" r="54" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12"/>
+        <circle cx="64" cy="64" r="54" fill="none" stroke="url(#riskGrad)" stroke-width="12"
+          stroke-linecap="round"
+          stroke-dasharray="{{ profile.risk_score|floatformat:0 }} 100"
+          pathLength="100"/>
+        <defs>
+          <linearGradient id="riskGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#18a892"/>
+            <stop offset="100%" stop-color="#ff5d5d"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="risk-ring-value">
+        <span class="num">{{ profile.risk_score }}</span>
+        <span class="denom">/ 100</span>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">AI RISK SCORE</div>
+      <h3 style="font-size:18px; margin:6px 0 6px;">{{ profile.risk_level }} darajadagi xavf</h3>
+      <span class="risk-badge {% if profile.risk_score >= 70 %}high{% elif profile.risk_score >= 40 %}medium{% else %}low{% endif %}">
+        Diqqat talab qiladi
+      </span>
+      <div style="display:flex; gap:18px; margin-top:14px; font-size:12px; color:var(--text-muted);">
+        <span>&#9679; Glyukoza</span>
+        <span>&#9679; Faollik</span>
+        <span>&#9679; Dori qabul</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Bugungi ko'rsatkichlar</div>
+    <div class="grid grid-2-even">
+      <div class="stat-tile">
+        <div class="label">Glyukoza</div>
+        <div class="value">{{ profile.glucose_mg_dl|default:"—" }} <span class="unit">mg/dL</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Faollik</div>
+        <div class="value">{{ profile.daily_steps|default:"—" }} <span class="unit">qadam</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Uyqu</div>
+        <div class="value">{{ profile.sleep_hours|default:"—" }} <span class="unit">soat</span></div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">BMI</div>
+        <div class="value">{{ profile.bmi|default:"—" }} <span class="unit">kg/m²</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-2" style="margin-top:18px;">
+  <div class="card">
+    <div class="card-title">AI tavsiyasi</div>
+    <p style="color:var(--text-muted); font-size:14px; line-height:1.6;">{{ today_tip }}</p>
+    <a href="{% url 'core:digital_twin' %}" class="btn btn-primary" style="margin-top:18px;">Digital Twin simulyatorini ochish</a>
+  </div>
+  <div class="card">
+    <div class="card-title">Asosiy xavf omillari</div>
+    {% for f in profile.risk_factors %}
+      <div class="factor-row">
+        <div class="factor-icon {{ f.severity }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div>
+          <div class="factor-title">{{ f.title }}</div>
+          <div class="factor-level">Ta'siri: {{ f.level }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

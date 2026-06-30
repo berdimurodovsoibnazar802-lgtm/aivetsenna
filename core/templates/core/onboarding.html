@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Profil yaratish — Alvitsenna{% endblock %}
+{% block body %}
+<div class="onboard-shell">
+  <div class="onboard-card card">
+    <div class="step-dots"><span class="active"></span><span class="active"></span><span class="active"></span><span></span></div>
+    <div class="eyebrow">Boshlang'ich profil yaratish</div>
+    <h2 style="font-size:22px; margin:8px 0 4px;">Profil ma'lumotlaringiz</h2>
+    <p style="color:var(--text-muted); font-size:13px; margin-bottom:22px;">Digital Twin profilingizni yaratish uchun ma'lumotlarni kiriting.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="grid grid-2-even">
+        <div class="field"><label>F.I.Sh.</label>{{ form.full_name }}</div>
+        <div class="field"><label>Jinsi</label>{{ form.gender }}</div>
+        <div class="field"><label>Yoshi</label>{{ form.age }}</div>
+        <div class="field"><label>Bo'yi (sm)</label>{{ form.height_cm }}</div>
+        <div class="field"><label>Vazni (kg)</label>{{ form.weight_kg }}</div>
+        <div class="field"><label>Qon glyukozasi (mg/dL)</label>{{ form.glucose_mg_dl }}</div>
+        <div class="field"><label>Qon bosimi — yuqori</label>{{ form.systolic_bp }}</div>
+        <div class="field"><label>Qon bosimi — pastki</label>{{ form.diastolic_bp }}</div>
+        <div class="field"><label>Kunlik qadamlar</label>{{ form.daily_steps }}</div>
+        <div class="field"><label>Uyqu davomiyligi (soat)</label>{{ form.sleep_hours }}</div>
+      </div>
+      <div class="checkbox-field" style="margin-bottom:20px;">
+        {{ form.takes_medication }}
+        <label for="id_takes_medication" style="margin:0;">Dori qabul qilasizmi? Ha, lekin ba'zida unutaman</label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Digital Twin yaratish</button>
+      <p style="font-size:11px; color:var(--text-faint); text-align:center; margin-top:14px;">
+        Alvitsenna tibbiy tashxis qo'ymaydi. U shifokor qarorlari o'rnini bosa olmaydi.
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}

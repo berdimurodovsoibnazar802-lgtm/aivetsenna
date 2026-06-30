@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Digital Twin — Alvitsenna{% endblock %}
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <div class="topbar-greeting">Digital Twin — simulyator</div>
+    <div class="topbar-sub">{{ profile.full_name|default:request.user.username }} uchun raqamli egizak</div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card" style="padding:0;">
+    <div class="twin-stage">
+      <div id="twin-canvas" class="twin-canvas"></div>
+      <div class="twin-ring"></div>
+      <div class="twin-tag" style="top:38%; left:54%;">
+        {% if profile.affected_organ == "heart" %}Yurak — yuqori xavf{% else %}Jigar — yuqori xavf{% endif %}
+      </div>
+    </div>
+    <div style="padding:18px 22px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div class="eyebrow">Hozirgi risk</div>
+        <div style="font-family:var(--font-display); font-size:26px; font-weight:700;">{{ profile.risk_score }}%</div>
+      </div>
+      <div>
+        <div class="eyebrow">Maqsad</div>
+        <div style="font-family:var(--font-display); font-size:26px; font-weight:700; color:var(--teal);">&lt; 50%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Bugungi ko'rsatkichlar</div>
+    <div class="list-row">
+      <span>Har kuni 30 daqiqa</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="list-row">
+      <span>Shirin ichimliklarni kamaytirsam</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="list-row">
+      <span>Uyquni 8 soat qilsam</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="list-row">
+      <span>Dorini vaqtida ichsam</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="list-row">
+      <span>Vaznimni 5 kg kamaytirsam</span>
+      <div class="toggle"></div>
+    </div>
+    <a href="{% url 'core:ai_analysis' %}" class="btn btn-primary btn-block" style="margin-top:18px;">30 kunlik prognozni ko'rish</a>
+  </div>
+</div>
+
+<script src="{% static 'js/twin.js' %}"></script>
+<script>
+  initDigitalTwin("twin-canvas", {
+    gender: "{{ profile.gender }}",
+    organ: "{{ profile.affected_organ }}",
+    pulse: true
+  });
+</script>
+{% endblock %}

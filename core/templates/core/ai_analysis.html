@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AI tahlil — Alvitsenna{% endblock %}
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <div class="topbar-greeting">AI tahlili</div>
+    <div class="topbar-sub">{{ profile.age|default:"—" }} yosh &middot; Demo statik tahlil</div>
+  </div>
+  <div class="avatar">{{ request.user.username|first|upper }}</div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card" style="padding:0;">
+    <div class="twin-stage" style="min-height:320px;">
+      <div id="twin-canvas-ai" class="twin-canvas" style="height:320px;"></div>
+    </div>
+    <div style="padding:18px 22px;">
+      <div class="eyebrow">Hozirgi risk</div>
+      <div style="font-family:var(--font-display); font-size:30px; font-weight:700;">{{ profile.risk_score }}%</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sizdagi asosiy xavf omillari</div>
+    {% for f in profile.risk_factors %}
+      <div class="factor-row">
+        <div class="factor-icon {{ f.severity }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <div>
+          <div class="factor-title">{{ f.title }}</div>
+          <div class="factor-level">Ta'siri: {{ f.level }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="grid grid-2" style="margin-top:18px;">
+  <div class="card">
+    <div class="card-title">AI tavsiya etgan reja</div>
+    <div class="plan-day">Bugun</div>
+    {% for item in profile.risk_factors|slice:":1" %}{% endfor %}
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 30 daqiqa yurish</div>
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Shirin ichimliklarni cheklash</div>
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Glyukozani qayta o'lchash</div>
+    <div class="plan-day">Keyingi 7 kun</div>
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Har kuni kamida 6 000 qadam</div>
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Uyquni 7 soatdan kam qilmaslik</div>
+    <div class="plan-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Dorilarni eslatma asosida qabul qilish</div>
+    <a href="{% url 'core:recommendations' %}" class="btn btn-ghost btn-block" style="margin-top:18px;">Hisobotni ko'rish</a>
+  </div>
+  <div class="card">
+    <div class="card-title">AI tavsiyasi</div>
+    <p style="color:var(--text-muted); font-size:14px; line-height:1.6;">{{ ai_recommendation }}</p>
+    <p style="color:var(--text-faint); font-size:11px; margin-top:18px;">Shifokorga murojaat qilish tavsiya etiladi. Bu tahlil tibbiy tashxis emas.</p>
+  </div>
+</div>
+
+<script src="{% static 'js/twin.js' %}"></script>
+<script>
+  initDigitalTwin("twin-canvas-ai", {
+    gender: "{{ profile.gender }}",
+    organ: "{{ profile.affected_organ }}",
+    pulse: true
+  });
+</script>
+{% endblock %}

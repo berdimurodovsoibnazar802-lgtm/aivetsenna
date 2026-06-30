@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Tavsiyalar — Alvitsenna{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <div class="topbar-greeting">AI tavsiya etgan reja</div>
+    <div class="topbar-sub">Risk darajangizni pasaytirish bo'yicha qadamlar</div>
+  </div>
+  <div class="avatar">{{ request.user.username|first|upper }}</div>
+</div>
+
+<div class="grid grid-2-even">
+  <div class="card">
+    <div class="card-title">Bugun</div>
+    {% for item in plan_today %}
+      <div class="plan-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ item }}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <div class="card-title">Keyingi 7 kun</div>
+    {% for item in plan_week %}
+      <div class="plan-item">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ item }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card" style="margin-top:18px;">
+  <div class="card-title">Rejaning bajarilishi</div>
+  <div class="progress-bar"><span style="width:38%;"></span></div>
+  <p style="color:var(--text-muted); font-size:12px; margin-top:10px;">Bu haftalik rejaning 38% qismi bajarildi. Davom eting!</p>
+  <a href="{% url 'core:digital_twin' %}" class="btn btn-primary" style="margin-top:18px;">Digital Twin simulyatorida ko'rish</a>
+</div>
+{% endblock %}

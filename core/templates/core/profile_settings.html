@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Profil va sozlamalar — Alvitsenna{% endblock %}
+{% block content %}
+<div class="topbar">
+  <div>
+    <div class="topbar-greeting">{{ profile.full_name|default:request.user.username }}</div>
+    <div class="topbar-sub">{{ profile.age|default:"—" }} yosh &middot; Digital Twin holati: {% if profile.digital_twin_created %}Faol{% else %}Yaratilmagan{% endif %}</div>
+  </div>
+  <div class="avatar">{{ request.user.username|first|upper }}</div>
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <div class="card-title">Profil ma'lumotlarini tahrirlash</div>
+    <form method="post">
+      {% csrf_token %}
+      <div class="grid grid-2-even">
+        <div class="field"><label>F.I.Sh.</label>{{ form.full_name }}</div>
+        <div class="field"><label>Jinsi</label>{{ form.gender }}</div>
+        <div class="field"><label>Yoshi</label>{{ form.age }}</div>
+        <div class="field"><label>Bo'yi (sm)</label>{{ form.height_cm }}</div>
+        <div class="field"><label>Vazni (kg)</label>{{ form.weight_kg }}</div>
+        <div class="field"><label>Qon glyukozasi (mg/dL)</label>{{ form.glucose_mg_dl }}</div>
+        <div class="field"><label>Qon bosimi — yuqori</label>{{ form.systolic_bp }}</div>
+        <div class="field"><label>Qon bosimi — pastki</label>{{ form.diastolic_bp }}</div>
+        <div class="field"><label>Kunlik qadamlar</label>{{ form.daily_steps }}</div>
+        <div class="field"><label>Uyqu davomiyligi (soat)</label>{{ form.sleep_hours }}</div>
+      </div>
+      <div class="checkbox-field" style="margin-bottom:20px;">
+        {{ form.takes_medication }}
+        <label for="id_takes_medication" style="margin:0;">Dori qabul qilasizmi?</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Ma'lumotlarni saqlash</button>
+    </form>
+  </div>
+
+  <div>
+    <div class="card" style="margin-bottom:18px;">
+      <div class="card-title">Sog'liq ma'lumotlari</div>
+      <div class="list-row"><span>BMI</span><span>{{ profile.bmi|default:"—" }}</span></div>
+      <div class="list-row"><span>AI risk balli</span><span>{{ profile.risk_score }} / 100</span></div>
+      <div class="list-row"><span>Risk darajasi</span><span>{{ profile.risk_level }}</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Kelajakda ulanadi</div>
+      <div class="list-row"><span>&#10084; Apple Health</span><span style="color:var(--text-faint);">Ulanmadi</span></div>
+      <div class="list-row"><span>&#9889; Google Fit</span><span style="color:var(--text-faint);">Ulanmadi</span></div>
+      <div class="list-row"><span>&#8987; Smart Watch</span><span style="color:var(--text-faint);">Ulanmadi</span></div>
+      <div class="list-row"><span>&#129514; Laboratoriya natijalari</span><span style="color:var(--text-faint);">Ulanmadi</span></div>
+      <div class="list-row"><span>&#128196; Elektron tibbiy karta</span><span style="color:var(--text-faint);">Ulanmadi</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

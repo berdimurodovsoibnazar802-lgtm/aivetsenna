@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Alvitsenna{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div>
+        <div class="brand-name">Alvitsenna</div>
+        <div class="brand-tag">Ilm bilan angla</div>
+      </div>
+    </div>
+    <nav class="nav-group">
+      <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'core:dashboard' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+        Bosh sahifa
+      </a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'digital_twin' %}active{% endif %}" href="{% url 'core:digital_twin' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="3"/><path d="M5 21v-2a7 7 0 0114 0v2"/></svg>
+        Digital Twin
+      </a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'ai_analysis' %}active{% endif %}" href="{% url 'core:ai_analysis' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l5-5 4 4 8-8"/></svg>
+        AI tahlil
+      </a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'recommendations' %}active{% endif %}" href="{% url 'core:recommendations' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5z"/></svg>
+        Tavsiyalar
+      </a>
+      <a class="nav-link {% if request.resolver_match.url_name == 'profile_settings' %}active{% endif %}" href="{% url 'core:profile_settings' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>
+        Profil va sozlamalar
+      </a>
+    </nav>
+    <div class="sidebar-foot">
+      <a href="{% url 'accounts:logout' %}" class="nav-link" style="padding-left:0;">Chiqish</a>
+      Alvitsenna MVP &middot; Demo rejimi
+    </div>
+  </aside>
+  <main class="main-area">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}
+</body>
+</html>

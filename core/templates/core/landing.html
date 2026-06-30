@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Alvitsenna — Sog'lig'ingizning aqlli raqamli egizagi{% endblock %}
+{% block body %}
+<div class="landing-hero">
+  <div class="eyebrow">Alvitsenna MVP</div>
+  <h1>Sog'lig'ingizni faqat kuzatmang — uni tushuning.</h1>
+  <p>Alvitsenna kundalik sog'liq ko'rsatkichlaringizni tahlil qilib, xavflarni erta aniqlashga va shaxsiy Digital Twin profilingiz orqali kelajakdagi o'zgarishlarni ko'rishga yordam beradi.</p>
+  <div style="display:flex; gap:14px;">
+    <a href="{% url 'accounts:register' %}" class="btn btn-primary">Boshlash</a>
+    <a href="{% url 'accounts:login' %}" class="btn btn-ghost">Kirish</a>
+  </div>
+</div>
+{% endblock %}
