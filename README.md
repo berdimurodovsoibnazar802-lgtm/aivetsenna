@@ -35,4 +35,4 @@ Demo hisob: `demo` / `demo12345` (yoki "Ro'yxatdan o'tish" orqali yangi hisob ya
 AI tahlil va tavsiyalar hozircha **statik/demo mantiq** asosida ishlaydi (`Profile.risk_score`, `risk_factors` — `accounts/models.py`). Haqiqiy ML modelga ulash uchun shu metodlarni almashtirish kifoya.
 =======
 # aivetsenna
->>>>>>> e4addbc522415c0063af9811c394e02cf60a65d7
+
